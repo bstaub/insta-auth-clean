@@ -21,7 +21,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import {AuthService} from './auth/auth.service';
-import {AuthGuard} from './auth/auth-guard.service';
+import {AuthGuard} from './auth/guards/auth-guard.service';
 import { ProfileComponent } from './auth/profile/profile.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import {UserService} from './auth/user.service';

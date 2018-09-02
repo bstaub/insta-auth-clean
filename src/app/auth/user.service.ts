@@ -5,6 +5,8 @@ import {Observable} from 'rxjs';
 import {filter, map} from 'rxjs/operators';
 import AuthCredential = firebase.auth.AuthCredential;
 import {loadQueryList} from '@angular/core/src/render3/instructions';
+import {AngularFireAuth} from 'angularfire2/auth';
+
 
 
 @Injectable({
@@ -15,7 +17,9 @@ export class UserService {
   users: Observable<User[]>;
   userDoc: AngularFirestoreDocument<User>;
 
-  constructor(public  afs: AngularFirestore) {
+  constructor( public  afs: AngularFirestore,
+               private afAuth: AngularFireAuth,
+              ) {
     // this.users = this.afs.collection('users').valueChanges();
 
     this.usersCollection = this.afs.collection('users', ref => ref.orderBy('email', 'asc'));
@@ -28,6 +32,10 @@ export class UserService {
         return {id, ...data};
       }))
     );
+
+
+
+
   }
 
   getUsers() {
@@ -35,7 +43,7 @@ export class UserService {
   }
 
   getUser(id) {
-    this.userDoc = this.afs.doc<User>(`users/${id}`);
+    this.userDoc = this.afs.doc(`users/${id}`);
     return this.userDoc.valueChanges();
   }
 
@@ -43,17 +51,7 @@ export class UserService {
     return this.usersCollection.add(user);  // need return for async logout call in register process!
   }
 
-  setUser2(user: User) {
-    // return this.usersCollection.set({user});
-    this.afs.doc(`users/${user.id}`);
-    this.userDoc.set(user);
-  }
-  setUser3(user: User) {
-    this.userDoc = this.afs.doc(`users/${user.id}`);
-    this.userDoc.set(user, {merge: true});
-  }
-
-  setUser4(user: User) {
+  setUser(user: User) {
     this.userDoc = this.afs.doc(`users/${user.id}`);
     return this.userDoc.set(user, {merge: true});
   }
@@ -65,10 +63,6 @@ export class UserService {
       area: 'luzernXXX'
     };
     return userRef.set(data, {merge: true});
-  }
-
-  getSingleUserinFireStore(uid: AuthCredential) {
-    return this.afs.collection('users', ref => ref.where('id', '==', uid));
   }
 
   deleteUser(user: User) {
@@ -93,6 +87,14 @@ export class UserService {
 
   getProfileFromLocalStorage() {
     return JSON.parse(localStorage.getItem('user')) || [];
+  }
+
+  get authenticated(): boolean {
+    return this.afAuth.authState !== null;
+  }
+
+  get currentUserId(): any {
+    return this.authenticated ? this.afAuth.auth.currentUser.uid : null;
   }
 
 }

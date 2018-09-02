@@ -6,7 +6,7 @@ import {FavoritesComponent} from './favorites/favorites.component';
 import {MyPostsComponent} from './my-posts/my-posts.component';
 import {RegisterComponent} from './auth/register/register.component';
 import {LoginComponent} from './auth/login/login.component';
-import {AuthGuard} from './auth/auth-guard.service';
+import {AuthGuard} from './auth/guards/auth-guard.service';
 import {ProfileComponent} from './auth/profile/profile.component';
 import {ResetPasswordComponent} from './auth/reset-password/reset-password.component';
 

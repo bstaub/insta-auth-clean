@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as firebase from 'firebase/app';
 import {AuthService} from '../auth/auth.service';
-import {AuthGuard} from '../auth/auth-guard.service';
+import {AuthGuard} from '../auth/guards/auth-guard.service';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {UserService} from '../auth/user.service';
 
